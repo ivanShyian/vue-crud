@@ -1,0 +1,30 @@
+// table
+
+.main__people-table {
+  border: 1px solid rgba(0, 0, 0, .1);
+  tr {
+    display: flex;
+    th, td {
+      flex: 0 0 20%
+    }
+  }
+  tr:first-child th {
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #ffffff;
+  }
+  tr:nth-child(odd):not(tr:first-child) {
+    background-color: aqua;
+  }
+  tr:not(tr:first-child) {
+    padding: .5rem 0;
+  }
+  tr td {
+    @media (max-width: 1000px) {
+      font-size: .8rem;
+      button {
+        padding: .1rem;
+      }
+    }
+  }
+}
