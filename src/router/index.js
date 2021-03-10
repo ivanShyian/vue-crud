@@ -14,6 +14,11 @@ const routes = [
     path: '/person/:id?',
     name: 'Person',
     component: () => import('../views/Person')
+  },
+  {
+    path: '/:notFound(.*)',
+    name: 'NotFound',
+    component: () => import('../views/NotFound')
   }
 ]
 

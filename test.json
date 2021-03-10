@@ -1,0 +1,18 @@
+{
+  "people": [
+    {
+      "5215124129": {
+        "name": "Johan",
+        "surname": "Renato",
+        "email": "renato@yahoo.com",
+        "phone": "380505552525"
+      },
+      "12251241129": {
+        "name": "Bruno",
+        "surname": "Sun",
+        "email": "sunshine@google.com",
+        "phone": "380085855555"
+      }
+    }
+  ]
+}

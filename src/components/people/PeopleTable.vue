@@ -7,13 +7,23 @@
       <th>Email</th>
       <th>Actions</th>
     </tr>
-    <PeopleTableItem></PeopleTableItem>
+    <PeopleTableItem v-for="p in people"
+                     :key="p.id"
+                     :person="p"
+    ></PeopleTableItem>
   </table>
 </template>
 
 <script>
 import PeopleTableItem from '@/components/people/PeopleTableItem'
 export default {
+  props: {
+    people: {
+      type: Array,
+      required: false,
+      default: Array
+    }
+  },
   components: { PeopleTableItem }
 }
 </script>

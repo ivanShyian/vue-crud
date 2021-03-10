@@ -6,7 +6,9 @@
               @click="$router.push('/person')"
       >Add person</button>
     </div>
-    <PeopleTable v-if="isEmpty"></PeopleTable>
+    <PeopleTable v-if="hasData"
+                 :people="people"
+    ></PeopleTable>
     <h4 v-else
         class="text-center text-danger pt-4"
     >List is empty!</h4>
@@ -17,9 +19,12 @@
 import PeopleTable from '@/components/people/PeopleTable'
 export default {
   name: 'people',
-  data() {
-    return {
-      isEmpty: true
+  computed: {
+    hasData() {
+      return Object.keys(this.people).length ?? false
+    },
+    people() {
+      return this.$store.getters.people
     }
   },
   components: { PeopleTable }
