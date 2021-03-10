@@ -1,11 +1,6 @@
 import Vue from 'vue'
-import Vuex, { createLogger } from 'vuex'
+import Vuex from 'vuex'
 import alert from './modules/alert.module'
-
-const plugins = []
-if (process.env.NODE_ENV === 'development') {
-  plugins.push(createLogger())
-}
 
 Vue.use(Vuex)
 
@@ -73,6 +68,5 @@ export default new Vuex.Store({
   },
   modules: {
     alert
-  },
-  plugins
+  }
 })
