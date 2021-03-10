@@ -1,11 +1,13 @@
 <template>
   <div>
     <div v-text="'<-- Back to people page'"
-         class="font-weight-bold mb-2 mt-2 back-btn"
+         class="font-weight-bold mb-2 mt-2 back-btn btn btn-outline-dark"
          @click="$router.push('/')"
     ></div>
     <div class="main__person-wrapper person mt-4" v-if="!invalidUser">
-      <PersonJson @set-json="$emit('set-json', $event)"
+      <PersonJson @parse-json="parseJson"
+                  @read="readFile"
+                  :statement="jsonWasLoaded"
       ></PersonJson>
       <div class="card">
         <div class="row">
@@ -29,8 +31,11 @@
         <div class="btn-group btn-group-md"
              role="group"
              aria-label="..."
-             v-if="!userFound">
-          <button class="btn btn-warning">Cancel</button>
+             v-if="!userFound"
+        >
+          <button class="btn btn-warning"
+                  @click="$router.push('/')"
+          >Cancel</button>
           <button class="btn btn-success"
                   :disabled="fieldsAreEmpty"
                   @click="addNewPerson"
@@ -39,7 +44,8 @@
         <div class="btn-group btn-group-md"
              role="group"
              aria-label="..."
-             v-else>
+             v-else
+        >
           <button class="btn btn-danger"
                   @click="deletePerson"
           >Delete</button>
@@ -59,18 +65,12 @@
 <script>
 import PersonJson from '@/components/person/PersonJson'
 import PersonField from '@/components/person/PersonField'
+import fileReader from '@/mixins/fileReader'
 export default {
   name: 'person',
+  mixins: [fileReader],
   mounted() {
-    if (this.userFound) {
-      this.currentUser = this.$store.getters.onePerson(this.$route.params.id)
-      Object.keys(this.currentUser).map(e => {
-        this.fields[e] = this.currentUser[e]
-        this.initialValues[e] = this.currentUser[e]
-      })
-    } else if (this.$route.params.id && !this.userFound) {
-      this.invalidUser = true
-    }
+    this.mountedAddon()
   },
   data() {
     return {
@@ -99,6 +99,17 @@ export default {
     }
   },
   methods: {
+    mountedAddon() {
+      if (this.userFound) {
+        this.currentUser = this.$store.getters.onePerson(this.$route.params.id)
+        Object.keys(this.currentUser).map(e => {
+          this.fields[e] = this.currentUser[e]
+          this.initialValues[e] = this.currentUser[e]
+        })
+      } else if (this.$route.params.id && !this.userFound) {
+        this.invalidUser = true
+      }
+    },
     addNewPerson() {
       if (!this.fieldsAreEmpty) {
         this.$store.commit('addPerson', this.fields)
@@ -108,6 +119,10 @@ export default {
           email: '',
           phone: ''
         }
+        this.$store.dispatch('alert/setAlert', {
+          type: 'success',
+          text: 'New person added successfully'
+        })
       }
     },
     saveChanges() {
@@ -116,10 +131,14 @@ export default {
           id: this.$route.params.id,
           updated: this.fields
         })
+        this.$store.dispatch('alert/setAlert', {
+          type: 'success',
+          text: 'User was changed!'
+        })
       }
     },
     deletePerson() {
-      this.$store.commit('deletePerson', this.$route.params.id)
+      this.$store.dispatch('deleteUser', this.$route.params.id)
       this.$router.replace('/')
     }
   },

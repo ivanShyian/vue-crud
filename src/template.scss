@@ -1,5 +1,7 @@
 // table
-
+body {
+  overflow-y: hidden;
+}
 .main__people-table {
   border: 1px solid rgba(0, 0, 0, .1);
   tr {

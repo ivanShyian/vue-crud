@@ -1,19 +1,13 @@
 <template>
   <div id="app">
     <TheNavbar></TheNavbar>
-    <main>
-      <div class="main__container container">
-        <router-view/>
-      </div>
-    </main>
+    <TheMain></TheMain>
   </div>
 </template>
-
-<style lang="scss">
-</style>
 <script>
 import TheNavbar from '@/components/TheNavbar'
+import TheMain from '@/components/TheMain'
 export default {
-  components: { TheNavbar }
+  components: { TheMain, TheNavbar }
 }
 </script>

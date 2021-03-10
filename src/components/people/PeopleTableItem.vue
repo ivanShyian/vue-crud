@@ -10,7 +10,7 @@
       >Edit</button>
       <button class="btn btn-outline-danger mr-2 btn-sm"
               @click="deletePerson(person.id)"
-      >Delete</button>
+      >Del</button>
     </td>
   </tr>
 </template>
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     deletePerson(idx) {
-      this.$store.commit('deletePerson', idx)
+      this.$store.dispatch('deleteUser', idx)
     },
     editPerson(idx) {
       this.$router.push(`/person/${idx}`)

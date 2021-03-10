@@ -9,16 +9,16 @@
                  class="custom-file-input"
                  id="inputGroupFile04"
                  aria-describedby="inputGroupFileAddon04"
-                 @change="parseJson"
+                 @change="$emit('parse-json', $event)"
           >
           <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
         </div>
         <div class="input-group-append">
-          <button class="btn btn-outline-warning" type="button" id="inputGroupFileAddon04">Single?</button>
           <button class="btn btn-outline-primary"
                   type="button"
                   id="inputGroupFileAddon04"
-                  @click="readFile">Add</button>
+                  :disabled="!statement"
+                  @click="readJson">Add</button>
         </div>
       </div>
     </div>
@@ -28,31 +28,20 @@
 <script>
 export default {
   props: {
-    value: {
-      type: Object,
-      required: false
+    statement: {
+      type: Boolean,
+      required: true
     }
   },
   data() {
     return {
-      addFile: false,
-      json: null
+      addFile: false
     }
   },
   methods: {
-    parseJson(e) {
-      const files = e.target.files || e.dataTransfer.files
-      if (files.length) {
-        this.json = files[0]
-      }
-    },
-    readFile() {
-      const reader = new FileReader()
-      reader.onload = e => {
-        const result = e.target.result
-        this.$emit('set-json', JSON.parse(result))
-      }
-      reader.readAsText(this.json)
+    readJson() {
+      this.$emit('read')
+      this.addFile = !this.addFile
     }
   }
 }
